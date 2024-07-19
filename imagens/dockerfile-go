@@ -1,0 +1,10 @@
+FROM golang:1.22
+WORKDIR /usr/src/app
+EXPOSE 8181
+COPY main.go go.mod go.sum ./
+ADD test.tar.gz ./
+RUN go get .
+RUN go mod download && go mod tidy && go mod verify
+LABEL container.name="lab-go"
+ENV VALOR_GO_ENV="OOPLA"
+CMD ["go", "run", "."]
