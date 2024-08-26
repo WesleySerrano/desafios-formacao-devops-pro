@@ -1,7 +1,7 @@
-FROM golang:1.22
+FROM golang:1.22-alpine
 WORKDIR /usr/src/app
 EXPOSE 8181
-COPY main.go go.mod go.sum ./
+COPY *.go go.mod go.sum ./
 ADD test.tar.gz ./
 RUN go get .
 RUN go mod download && go mod tidy && go mod verify

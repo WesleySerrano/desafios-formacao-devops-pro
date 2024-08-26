@@ -1,0 +1,1 @@
+echo Ça c\'est mon entrypoint
