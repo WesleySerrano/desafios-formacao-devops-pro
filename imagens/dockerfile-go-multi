@@ -1,0 +1,15 @@
+FROM golang:1.22-alpine as build
+WORKDIR /build
+EXPOSE 8181
+COPY *.go go.mod go.sum ./
+ADD test.tar.gz ./
+RUN go get .
+RUN go mod download && go mod tidy && go mod verify
+LABEL container.name="lab-go"
+ENV VALOR_GO_ENV="OOPLA"
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+
+FROM alpine:3.20.3 as app
+WORKDIR /app
+COPY --from=build /build/main .
+CMD ["./main"]
